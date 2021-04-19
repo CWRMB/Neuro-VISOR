@@ -20,13 +20,19 @@ namespace C2M2.Interaction
         public bool yScale = true;
         public bool zScale = true;
         private PublicOVRGrabber grabber;
+        public KeyCode incKey = KeyCode.UpArrow;
+        public KeyCode decKey = KeyCode.DownArrow;
 
         ///<returns>A float between -1 and 1, where -1 means the thumbstick y axis is completely down and 1 implies it is all the way up</returns>
         private float ThumbstickScaler
         {
             get
             {
-                return OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, grabber.Controller).y;
+                float scaler = -1;
+                if (GameManager.instance.VrIsActive) return OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, grabber.Controller).y;
+                else if (Input.GetKey(incKey)) return 1;
+                else if (Input.GetKey(decKey)) return -1;
+                return 0;
             }
         }
 

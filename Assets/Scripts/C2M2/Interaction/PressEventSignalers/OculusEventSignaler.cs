@@ -11,13 +11,16 @@ namespace C2M2.Interaction.Signaling
     public class OculusEventSignaler : RaycastEventSignaler
     {
         [Tooltip("The Oculus controller being raycasted from")]
-        public OVRInput.Controller controller = OVRInput.Controller.RTouch;
+        //public OVRInput.Controller controller = OVRInput.Controller.RTouch;
+        public int controller = 0;
         [Tooltip("Button to activate raycasting mode")]
-        public OVRInput.Button beginRaycastingButton = OVRInput.Button.One;
+        //public OVRInput.Button beginRaycastingButton = OVRInput.Button.One;
+        public VRInputButtons.Button beginRaycastingButton;
         [Tooltip("If Toggle Mode is enabled, pressing Begin Raycasting Button will toggle raycasting mode on. Otherwise Begin Raycasting Button needs to be held down to enter raycasting mode.")]
         public bool toggleMode = true;
         [Tooltip("Button to invoke hit/hold events from a distance")]
-        public OVRInput.Button triggerEventsButton = OVRInput.Button.PrimaryIndexTrigger;
+        //public OVRInput.Button triggerEventsButton = OVRInput.Button.PrimaryIndexTrigger;
+        public VRInputButtons.Button triggerEventsButton;
         public OVRGrabber grabber = null;
         [Tooltip("Line renderer for visually mimicking raycast vector")]
         public LineRenderer lineRend;
@@ -30,12 +33,14 @@ namespace C2M2.Interaction.Signaling
         public bool isLeftHand = false;
 
         private bool toggled = false;
+        VRInputManager device = new VRInputManager();
         private bool Toggled
         {
             get
             {
                 // If the raycasting button was pressed for the first time this frame, enable/disable raycasting
-                if (OVRInput.GetDown(beginRaycastingButton, controller))
+                //if (OVRInput.GetDown(beginRaycastingButton, controller))
+                if (device.Get((int)beginRaycastingButton, controller))
                 {
                     toggled = !toggled;
                 }
@@ -64,7 +69,7 @@ namespace C2M2.Interaction.Signaling
         {
             // If we are in toggle mode, is raycasting mode toggled on?
             // Otherwise, is the Begin Raycasting Button currently being pressed down?
-            bool rURaycasting = toggleMode ? Toggled : OVRInput.Get(beginRaycastingButton, controller);
+            bool rURaycasting = toggleMode ? Toggled : device.Get((int)beginRaycastingButton, controller);//OVRInput.Get(beginRaycastingButton, controller);
 
             // If an object is being actively grabbed, don't raycast
             if (grabber != null && grabber.grabbedObject != null)
@@ -77,7 +82,8 @@ namespace C2M2.Interaction.Signaling
         }
         private bool distancePressed = false;
         /// <returns> True if the specified controller button is pressed OR if we are near enough to the raycast target </returns>
-        protected override bool PressCondition() => (OVRInput.Get(triggerEventsButton, controller) || distancePressed);
+        //protected override bool PressCondition() => (OVRInput.Get(triggerEventsButton, controller) || distancePressed);
+        protected override bool PressCondition() => (device.Get((int)triggerEventsButton, controller) || distancePressed);
 
         // At the start of a click change the line renderer color to pressed color
         protected override void OnPressBegin()

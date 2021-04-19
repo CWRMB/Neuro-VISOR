@@ -1,0 +1,33 @@
+{
+    "name": "InputMaster",
+    "maps": [
+        {
+            "name": "Keyboard",
+            "id": "0551efdd-da31-4c16-972d-c1d2ec6f355d",
+            "actions": [
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "6558a952-aa59-48ce-952a-7be35c2856b6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "16a0433f-9fc8-4e95-bbe7-2fada5619192",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
