@@ -29,9 +29,6 @@ namespace C2M2.Interaction.Signaling
         [Tooltip("Line renderer color when holding a click")]
         public Color pressedColor = new Color(1f, 0.6f, 0f);
 
-        public Transform localAvatar;
-        public bool isLeftHand = false;
-
         private bool toggled = false;
         VRInputManager device = new VRInputManager();
         private bool Toggled
@@ -166,7 +163,7 @@ namespace C2M2.Interaction.Signaling
         private IEnumerator SearchForHand(int waitFrames)
         {
             int maxFrames = 100;
-            string handName = isLeftHand ? "hand_left" : "hand_right";
+            string handName = (controller == 1) ? "hand_left" : "hand_right";
 
             while(defaultHand == null)
             {
