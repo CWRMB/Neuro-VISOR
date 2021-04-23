@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.XR.Interaction.Toolkit;
 namespace C2M2.Interaction.Signaling
 {
     using Utils;
@@ -59,8 +59,6 @@ namespace C2M2.Interaction.Signaling
         {
             // WARNING: Don't call this method in Awake( )
             lineRend.SetEndpointColors(unpressedColor);
-
-            StartCoroutine(SearchForHand(100));
         }
         protected override bool RaycastRequested()
         {
@@ -117,18 +115,17 @@ namespace C2M2.Interaction.Signaling
 
         [Tooltip("The renderer component for the static pointed hand ")]
         public MeshRenderer staticHand;
-        [Tooltip("This is the default Oculus hand object, usually hand_right or hand_left")]
-        private UnityEngine.GameObject defaultHand = null;
+        private UnityEngine.GameObject DefaultHand { get { return GetComponentInParent<ActionBasedController>().modelTransform.gameObject; } }
         /// <summary>
         /// Enable/disable static raycasting hand model and default hand
         /// </summary>
         /// <param name="active"> True to enable static hand, false to enable regular OVR hand</param>
         private void StaticHandSetActive(bool active)
         {
-            if (defaultHand != null && staticHand != null)
+            if (DefaultHand != null && staticHand != null)
             {
                 staticHand.enabled = active;
-                defaultHand.SetActive(!active);
+                DefaultHand.SetActive(!active);
             }
         }
         /// <summary>
@@ -158,22 +155,6 @@ namespace C2M2.Interaction.Signaling
 
             // We either haven't clicked yet, or we're too far. Don't trigger a hold
             else return false;
-        }
-
-        private IEnumerator SearchForHand(int waitFrames)
-        {
-            int maxFrames = 100;
-            string handName = (controller == 1) ? "hand_left" : "hand_right";
-
-            while(defaultHand == null)
-            {
-                defaultHand = GameObject.Find(handName);
-                maxFrames--;
-                if (maxFrames == 0) break;
-                yield return null;
-            }
-
-            if (defaultHand == null) Debug.LogError("No hand found!");
         }
     }
 }
