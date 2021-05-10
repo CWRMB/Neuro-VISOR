@@ -115,7 +115,8 @@ namespace C2M2.Interaction.Signaling
 
         [Tooltip("The renderer component for the static pointed hand ")]
         public MeshRenderer staticHand;
-        private UnityEngine.GameObject DefaultHand { get { return GetComponentInParent<ActionBasedController>().modelTransform.gameObject; } }
+        public UnityEngine.GameObject DefaultHand;
+        //private UnityEngine.GameObject DefaultHand { get { return GetComponentInParent<ActionBasedController>().modelTransform.gameObject; } }
         /// <summary>
         /// Enable/disable static raycasting hand model and default hand
         /// </summary>
